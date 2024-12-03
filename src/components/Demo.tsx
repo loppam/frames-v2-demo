@@ -21,9 +21,6 @@ export default function Demo(
   const [context, setContext] = useState<FrameContext>();
   const [isContextOpen, setIsContextOpen] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
-  const [coinResult, setCoinResult] = useState<'heads' | 'tails' | null>(null);
-  const [isFlipping, setIsFlipping] = useState(false);
-  const [coinClass, setCoinClass] = useState('coin');
 
   const { address, isConnected } = useAccount();
   const {
@@ -116,29 +113,6 @@ export default function Demo(
   const toggleContext = useCallback(() => {
     setIsContextOpen((prev) => !prev);
   }, []);
-
-  const flipCoin = useCallback(() => {
-    setIsFlipping(true);
-    setCoinClass('coin flipping');
-    
-    // Reset coin result during flip
-    setCoinResult(null);
-    
-    // Wait for animation to complete
-    setTimeout(() => {
-      const result = Math.random() < 0.5 ? 'heads' : 'tails';
-      setCoinResult(result);
-      setIsFlipping(false);
-    }, 1000);
-  }, []);
-
-  useEffect(() => {
-    if (!isFlipping) {
-      setTimeout(() => {
-        setCoinClass('coin');
-      }, 50);
-    }
-  }, [isFlipping]);
 
   const renderError = (error: Error | null) => {
     if (!error) return null;
