@@ -23,6 +23,7 @@ export default function Demo(
   const [txHash, setTxHash] = useState<string | null>(null);
   const [coinResult, setCoinResult] = useState<'heads' | 'tails' | null>(null);
   const [isFlipping, setIsFlipping] = useState(false);
+  const [coinClass, setCoinClass] = useState('coin');
 
   const { address, isConnected } = useAccount();
   const {
@@ -118,13 +119,26 @@ export default function Demo(
 
   const flipCoin = useCallback(() => {
     setIsFlipping(true);
-    // Simulate coin flip animation
+    setCoinClass('coin flipping');
+    
+    // Reset coin result during flip
+    setCoinResult(null);
+    
+    // Wait for animation to complete
     setTimeout(() => {
       const result = Math.random() < 0.5 ? 'heads' : 'tails';
       setCoinResult(result);
       setIsFlipping(false);
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    if (!isFlipping) {
+      setTimeout(() => {
+        setCoinClass('coin');
+      }, 50);
+    }
+  }, [isFlipping]);
 
   const renderError = (error: Error | null) => {
     if (!error) return null;
@@ -167,24 +181,22 @@ export default function Demo(
       <div>
         <h2 className="font-2xl font-bold">Actions</h2>
 
-        <div className="mb-4">
+        <div className="mb-8">
           <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
             <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
-              Coin Flip
+              Games
             </pre>
           </div>
-          <Button 
-            onClick={flipCoin} 
-            disabled={isFlipping}
-            isLoading={isFlipping}
-          >
-            {isFlipping ? 'Flipping...' : 'Flip Coin'}
-          </Button>
-          {coinResult && (
-            <div className="mt-2 text-center font-bold">
-              Result: {coinResult.toUpperCase()}! 🎲
-            </div>
-          )}
+          
+          <div className="flex flex-col items-center gap-4">
+            <Button 
+              onClick={() => sdk.actions.openUrl(`${process.env.NEXT_PUBLIC_URL}/frames/games/coinflip`)}
+              className="w-full"
+            >
+              Play Coin Flip 🎲
+            </Button>
+            {/* Add more game buttons here */}
+          </div>
         </div>
 
         <div className="mb-4">
