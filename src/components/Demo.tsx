@@ -61,9 +61,8 @@ export default function Demo(
     address: address as `0x${string}`,
   });
 
-  const usdValue = balance && ethPrice 
-    ? parseFloat(balance.formatted) * ethPrice
-    : null;
+  const usdValue =
+    balance && ethPrice ? parseFloat(balance.formatted) * ethPrice : null;
 
   useEffect(() => {
     const load = async () => {
@@ -77,9 +76,11 @@ export default function Demo(
   }, [isSDKLoaded]);
 
   useEffect(() => {
-    fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
-      .then(res => res.json())
-      .then(data => setEthPrice(data.ethereum.usd))
+    fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
+    )
+      .then((res) => res.json())
+      .then((data) => setEthPrice(data.ethereum.usd))
       .catch(console.error);
   }, []);
 
@@ -151,7 +152,13 @@ export default function Demo(
   return (
     <div className="w-[300px] mx-auto py-4 px-2">
       <h1 className="text-2xl font-bold text-center mb-4">{title}</h1>
-
+      <nav className="flex justify-end mb-4">
+        <img
+          src={context?.user.pfpUrl || ""}
+          alt="Profile"
+          className="w-12 h-12 rounded-full"
+        />
+      </nav>
       <div className="mb-4">
         <h2 className="font-2xl font-bold">Context</h2>
         <button
@@ -186,12 +193,9 @@ export default function Demo(
               Games
             </pre>
           </div>
-          
+
           <div className="flex flex-col items-center gap-4">
-            <Button 
-              onClick={openCoinFlip}
-              className="w-full"
-            >
+            <Button onClick={openCoinFlip} className="w-full">
               Play Coin Flip 🎲
             </Button>
             {/* Add more game buttons here */}
@@ -231,7 +235,9 @@ export default function Demo(
 
         {address && (
           <div className="my-2 text-xs">
-            <div>Address: <pre className="inline">{truncateAddress(address)}</pre></div>
+            <div>
+              Address: <pre className="inline">{truncateAddress(address)}</pre>
+            </div>
             {balance && (
               <div className="mt-1">
                 Balance: {balance.formatted} {balance.symbol}
