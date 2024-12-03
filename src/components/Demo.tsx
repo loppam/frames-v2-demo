@@ -21,6 +21,8 @@ export default function Demo(
   const [context, setContext] = useState<FrameContext>();
   const [isContextOpen, setIsContextOpen] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
+  const [coinResult, setCoinResult] = useState<'heads' | 'tails' | null>(null);
+  const [isFlipping, setIsFlipping] = useState(false);
 
   const { address, isConnected } = useAccount();
   const {
@@ -114,6 +116,16 @@ export default function Demo(
     setIsContextOpen((prev) => !prev);
   }, []);
 
+  const flipCoin = useCallback(() => {
+    setIsFlipping(true);
+    // Simulate coin flip animation
+    setTimeout(() => {
+      const result = Math.random() < 0.5 ? 'heads' : 'tails';
+      setCoinResult(result);
+      setIsFlipping(false);
+    }, 1000);
+  }, []);
+
   const renderError = (error: Error | null) => {
     if (!error) return null;
     return <div className="text-red-500 text-xs mt-1">{error.message}</div>;
@@ -154,6 +166,26 @@ export default function Demo(
 
       <div>
         <h2 className="font-2xl font-bold">Actions</h2>
+
+        <div className="mb-4">
+          <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
+            <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
+              Coin Flip
+            </pre>
+          </div>
+          <Button 
+            onClick={flipCoin} 
+            disabled={isFlipping}
+            isLoading={isFlipping}
+          >
+            {isFlipping ? 'Flipping...' : 'Flip Coin'}
+          </Button>
+          {coinResult && (
+            <div className="mt-2 text-center font-bold">
+              Result: {coinResult.toUpperCase()}! 🎲
+            </div>
+          )}
+        </div>
 
         <div className="mb-4">
           <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
