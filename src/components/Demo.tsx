@@ -8,6 +8,7 @@ import {
   useWaitForTransactionReceipt,
   useDisconnect,
   useConnect,
+  useBalance,
 } from "wagmi";
 import { useRouter } from "next/navigation";
 
@@ -54,6 +55,10 @@ export default function Demo(
   const { connect } = useConnect();
 
   const router = useRouter();
+
+  const { data: balance } = useBalance({
+    address: address as `0x${string}`,
+  });
 
   useEffect(() => {
     const load = async () => {
@@ -214,7 +219,12 @@ export default function Demo(
 
         {address && (
           <div className="my-2 text-xs">
-            Address: <pre className="inline">{truncateAddress(address)}</pre>
+            <div>Address: <pre className="inline">{truncateAddress(address)}</pre></div>
+            {balance && (
+              <div className="mt-1">
+                Balance: {balance.formatted} {balance.symbol}
+              </div>
+            )}
           </div>
         )}
 
