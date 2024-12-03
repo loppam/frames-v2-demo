@@ -24,6 +24,7 @@ export default function Demo(
   const [isContextOpen, setIsContextOpen] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
   const [ethPrice, setEthPrice] = useState<number | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const { address, isConnected } = useAccount();
   const {
@@ -135,6 +136,10 @@ export default function Demo(
     setIsContextOpen((prev) => !prev);
   }, []);
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
   const renderError = (error: Error | null) => {
     if (!error) return null;
     return <div className="text-red-500 text-xs mt-1">{error.message}</div>;
@@ -152,12 +157,31 @@ export default function Demo(
   return (
     <div className="w-[300px] mx-auto py-4 px-2">
       <h1 className="text-2xl font-bold text-center mb-4">{title}</h1>
-      <nav className="flex justify-end mb-4">
-        <img
-          src={context?.user.pfpUrl || ""}
-          alt="Profile"
-          className="w-12 h-12 rounded-full"
-        />
+      <nav className="flex justify-end items-center mb-4 relative">
+        <div className="flex items-center gap-2 cursor-pointer" onClick={toggleDropdown}>
+          <img
+            src={context?.user.pfpUrl || ""}
+            alt="Profile"
+            className="w-12 h-12 rounded-full"
+          />
+          <span className="font-semibold">{context?.user.username || "User"}</span>
+        </div>
+        {isDropdownOpen && (
+          <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4">
+            <div className="text-sm">
+              <div>FID: {context?.user.fid || "N/A"}</div>
+              <div>Username: {context?.user.username || "N/A"}</div>
+            </div>
+            <Button
+              onClick={() =>
+                isConnected ? disconnect() : connect({ connector: config.connectors[0] })
+              }
+              className="mt-2 w-full"
+            >
+              {isConnected ? "Disconnect" : "Connect"}
+            </Button>
+          </div>
+        )}
       </nav>
       <div className="mb-4">
         <h2 className="font-2xl font-bold">Context</h2>
