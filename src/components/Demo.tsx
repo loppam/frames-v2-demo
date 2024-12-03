@@ -23,6 +23,7 @@ export default function Demo(
   const [context, setContext] = useState<FrameContext>();
   const [isContextOpen, setIsContextOpen] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
+  const [ethPrice, setEthPrice] = useState<number | null>(null);
 
   const { address, isConnected } = useAccount();
   const {
@@ -60,6 +61,10 @@ export default function Demo(
     address: address as `0x${string}`,
   });
 
+  const usdValue = balance && ethPrice 
+    ? parseFloat(balance.formatted) * ethPrice
+    : null;
+
   useEffect(() => {
     const load = async () => {
       setContext(await sdk.context);
@@ -70,6 +75,13 @@ export default function Demo(
       load();
     }
   }, [isSDKLoaded]);
+
+  useEffect(() => {
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
+      .then(res => res.json())
+      .then(data => setEthPrice(data.ethereum.usd))
+      .catch(console.error);
+  }, []);
 
   const openUrl = useCallback(() => {
     sdk.actions.openUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
@@ -223,6 +235,11 @@ export default function Demo(
             {balance && (
               <div className="mt-1">
                 Balance: {balance.formatted} {balance.symbol}
+                {usdValue && (
+                  <span className="ml-1 text-gray-500">
+                    (${usdValue.toFixed(2)})
+                  </span>
+                )}
               </div>
             )}
           </div>
