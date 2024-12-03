@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import App from "~/app/app";
+import CoinFlipClient from "~/components/games/CoinFlipClient";
 
 const appUrl = process.env.NEXT_PUBLIC_URL;
 
@@ -31,5 +31,9 @@ export const metadata: Metadata = {
 };
 
 export default function CoinFlipFrame() {
-  return <App title={"Coin Flip Game"} />;
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+      <CoinFlipClient />
+    </div>
+  );
 } 

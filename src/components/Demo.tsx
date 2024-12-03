@@ -9,6 +9,7 @@ import {
   useDisconnect,
   useConnect,
 } from "wagmi";
+import { useRouter } from "next/navigation";
 
 import { config } from "~/components/providers/WagmiProvider";
 import { Button } from "~/components/ui/Button";
@@ -51,6 +52,8 @@ export default function Demo(
 
   const { disconnect } = useDisconnect();
   const { connect } = useConnect();
+
+  const router = useRouter();
 
   useEffect(() => {
     const load = async () => {
@@ -119,6 +122,11 @@ export default function Demo(
     return <div className="text-red-500 text-xs mt-1">{error.message}</div>;
   };
 
+  const openCoinFlip = useCallback(() => {
+    const url = `/frames/games/coinflip`;
+    router.push(url);
+  }, [router]);
+
   if (!isSDKLoaded) {
     return <div>Loading...</div>;
   }
@@ -164,7 +172,7 @@ export default function Demo(
           
           <div className="flex flex-col items-center gap-4">
             <Button 
-              onClick={() => sdk.actions.openUrl(`${process.env.NEXT_PUBLIC_URL}/frames/games/coinflip`)}
+              onClick={openCoinFlip}
               className="w-full"
             >
               Play Coin Flip 🎲
