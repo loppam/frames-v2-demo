@@ -11,6 +11,7 @@ import {
   useBalance,
 } from "wagmi";
 import { useRouter } from "next/navigation";
+import Image from 'next/image';
 
 import { config } from "~/components/providers/WagmiProvider";
 import { Button } from "~/components/ui/Button";
@@ -155,28 +156,45 @@ export default function Demo(
   }
 
   return (
-    <div className="w-[300px] mx-auto py-4 px-2">
-      <h1 className="text-2xl font-bold text-center mb-4">{title}</h1>
-      <nav className="flex justify-end items-center mb-4 relative">
-        <div className="flex items-center gap-2 cursor-pointer" onClick={toggleDropdown}>
-          <img
+    <div className="app-container">
+      <h1 className="app-title">{title}</h1>
+      <nav className="navbar">
+        <div className="balance-container">
+          {balance && (
+            <div className="mt-1">
+              Balance: {balance.formatted} {balance.symbol}
+              {usdValue && (
+                <span className="ml-1 text-gray-500">
+                  (${usdValue.toFixed(2)})
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+        <div className="profile-container" onClick={toggleDropdown}>
+          <Image
             src={context?.user.pfpUrl || ""}
             alt="Profile"
-            className="w-12 h-12 rounded-full"
+            width={48}
+            height={48}
+            className="profile-image"
+            unoptimized
           />
-          <span className="font-semibold">{context?.user.username || "User"}</span>
+          <span className="username">{context?.user.username || "User"}</span>
         </div>
         {isDropdownOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4">
-            <div className="text-sm">
+          <div className="dropdown-menu">
+            <div className="dropdown-content">
               <div>FID: {context?.user.fid || "N/A"}</div>
               <div>Username: {context?.user.username || "N/A"}</div>
             </div>
             <Button
               onClick={() =>
-                isConnected ? disconnect() : connect({ connector: config.connectors[0] })
+                isConnected
+                  ? disconnect()
+                  : connect({ connector: config.connectors[0] })
               }
-              className="mt-2 w-full"
+              className="dropdown-button"
             >
               {isConnected ? "Disconnect" : "Connect"}
             </Button>
