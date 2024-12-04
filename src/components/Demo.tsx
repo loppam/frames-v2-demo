@@ -2,16 +2,16 @@ import { useEffect, useCallback, useState } from "react";
 import sdk, { type FrameContext } from "@farcaster/frame-sdk";
 import {
   useAccount,
-  useSendTransaction,
-  useSignMessage,
-  useSignTypedData,
-  useWaitForTransactionReceipt,
+  // useSendTransaction,
+  // useSignMessage,
+  // useSignTypedData,
+  // useWaitForTransactionReceipt,
   useDisconnect,
   useConnect,
   useBalance,
 } from "wagmi";
 import { useRouter } from "next/navigation";
-import Image from 'next/image';
+import Image from "next/image";
 
 import { config } from "~/components/providers/WagmiProvider";
 import { Button } from "~/components/ui/Button";
@@ -22,37 +22,37 @@ export default function Demo(
 ) {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [context, setContext] = useState<FrameContext>();
-  const [isContextOpen, setIsContextOpen] = useState(false);
-  const [txHash, setTxHash] = useState<string | null>(null);
+  // const [isContextOpen, setIsContextOpen] = useState(false);
+  // const [txHash, setTxHash] = useState<string | null>(null);
   const [ethPrice, setEthPrice] = useState<number | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const { address, isConnected } = useAccount();
-  const {
-    sendTransaction,
-    error: sendTxError,
-    isError: isSendTxError,
-    isPending: isSendTxPending,
-  } = useSendTransaction();
+  // const {
+  //   sendTransaction,
+  //   error: sendTxError,
+  //   isError: isSendTxError,
+  //   isPending: isSendTxPending,
+  // } = useSendTransaction();
 
-  const { isLoading: isConfirming, isSuccess: isConfirmed } =
-    useWaitForTransactionReceipt({
-      hash: txHash as `0x${string}`,
-    });
+  // const { isLoading: isConfirming, isSuccess: isConfirmed } =
+  //   useWaitForTransactionReceipt({
+  //     hash: txHash as `0x${string}`,
+  //   });
 
-  const {
-    signMessage,
-    error: signError,
-    isError: isSignError,
-    isPending: isSignPending,
-  } = useSignMessage();
+  // const {
+  //   signMessage,
+  //   error: signError,
+  //   isError: isSignError,
+  //   isPending: isSignPending,
+  // } = useSignMessage();
 
-  const {
-    signTypedData,
-    error: signTypedError,
-    isError: isSignTypedError,
-    isPending: isSignTypedPending,
-  } = useSignTypedData();
+  // const {
+  //   signTypedData,
+  //   error: signTypedError,
+  //   isError: isSignTypedError,
+  //   isPending: isSignTypedPending,
+  // } = useSignTypedData();
 
   const { disconnect } = useDisconnect();
   const { connect } = useConnect();
@@ -86,65 +86,65 @@ export default function Demo(
       .catch(console.error);
   }, []);
 
-  const openUrl = useCallback(() => {
-    sdk.actions.openUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-  }, []);
+  // const openUrl = useCallback(() => {
+  //   sdk.actions.openUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+  // }, []);
 
-  const openWarpcastUrl = useCallback(() => {
-    sdk.actions.openUrl("https://warpcast.com/~/compose");
-  }, []);
+  // const openWarpcastUrl = useCallback(() => {
+  //   sdk.actions.openUrl("https://warpcast.com/~/compose");
+  // }, []);
 
-  const close = useCallback(() => {
-    sdk.actions.close();
-  }, []);
+  // const close = useCallback(() => {
+  //   sdk.actions.close();
+  // }, []);
 
-  const sendTx = useCallback(() => {
-    sendTransaction(
-      {
-        to: "0x4bBFD120d9f352A0BEd7a014bd67913a2007a878",
-        data: "0x9846cd9efc000023c0",
-      },
-      {
-        onSuccess: (hash) => {
-          setTxHash(hash);
-        },
-      }
-    );
-  }, [sendTransaction]);
+  // const sendTx = useCallback(() => {
+  //   sendTransaction(
+  //     {
+  //       to: "0x4bBFD120d9f352A0BEd7a014bd67913a2007a878",
+  //       data: "0x9846cd9efc000023c0",
+  //     },
+  //     {
+  //       onSuccess: (hash) => {
+  //         setTxHash(hash);
+  //       },
+  //     }
+  //   );
+  // }, [sendTransaction]);
 
-  const sign = useCallback(() => {
-    signMessage({ message: "Hello from Frames v2!" });
-  }, [signMessage]);
+  // const sign = useCallback(() => {
+  //   signMessage({ message: "Hello from Frames v2!" });
+  // }, [signMessage]);
 
-  const signTyped = useCallback(() => {
-    signTypedData({
-      domain: {
-        name: "Frames v2 Demo",
-        version: "1",
-        chainId: 8453,
-      },
-      types: {
-        Message: [{ name: "content", type: "string" }],
-      },
-      message: {
-        content: "Hello from Frames v2!",
-      },
-      primaryType: "Message",
-    });
-  }, [signTypedData]);
+  // const signTyped = useCallback(() => {
+  //   signTypedData({
+  //     domain: {
+  //       name: "Frames v2 Demo",
+  //       version: "1",
+  //       chainId: 8453,
+  //     },
+  //     types: {
+  //       Message: [{ name: "content", type: "string" }],
+  //     },
+  //     message: {
+  //       content: "Hello from Frames v2!",
+  //     },
+  //     primaryType: "Message",
+  //   });
+  // }, [signTypedData]);
 
-  const toggleContext = useCallback(() => {
-    setIsContextOpen((prev) => !prev);
-  }, []);
+  // const toggleContext = useCallback(() => {
+  //   setIsContextOpen((prev) => !prev);
+  // }, []);
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const renderError = (error: Error | null) => {
-    if (!error) return null;
-    return <div className="text-red-500 text-xs mt-1">{error.message}</div>;
-  };
+  // const renderError = (error: Error | null) => {
+  //   if (!error) return null;
+  //   return <div className="text-red-500 text-xs mt-1">{error.message}</div>;
+  // };
 
   const openCoinFlip = useCallback(() => {
     const url = `/frames/games/coinflip`;
@@ -162,7 +162,8 @@ export default function Demo(
         <div className="balance-container">
           {balance && (
             <div className="mt-1">
-              Balance: {balance.formatted} {balance.symbol}
+              Balance: {parseFloat(balance.formatted).toFixed(4)}{" "}
+              {balance.symbol}
               {usdValue && (
                 <span className="ml-1 text-gray-500">
                   (${usdValue.toFixed(2)})
@@ -172,14 +173,37 @@ export default function Demo(
           )}
         </div>
         <div className="profile-container" onClick={toggleDropdown}>
-          <Image
-            src={context?.user.pfpUrl || ""}
-            alt="Profile"
-            width={48}
-            height={48}
-            className="profile-image"
-            unoptimized
-          />
+          {context?.user.pfpUrl ? (
+            <Image
+              src={context.user.pfpUrl}
+              alt="Profile"
+              width={48}
+              height={48}
+              className="profile-image"
+              unoptimized
+              onError={(e) => {
+                // Fallback to default user icon if image fails to load
+                e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' /%3E%3C/svg%3E";
+              }}
+            />
+          ) : (
+            <div className="profile-image-fallback">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" 
+                />
+              </svg>
+            </div>
+          )}
           <span className="username">{context?.user.username || "User"}</span>
         </div>
         {isDropdownOpen && (
@@ -187,6 +211,7 @@ export default function Demo(
             <div className="dropdown-content">
               <div>FID: {context?.user.fid || "N/A"}</div>
               <div>Username: {context?.user.username || "N/A"}</div>
+              <div>Address: {address ? truncateAddress(address) : "Not Connected"}</div>
             </div>
             <Button
               onClick={() =>
@@ -201,7 +226,7 @@ export default function Demo(
           </div>
         )}
       </nav>
-      <div className="mb-4">
+      {/* <div className="mb-4">
         <h2 className="font-2xl font-bold">Context</h2>
         <button
           onClick={toggleContext}
@@ -224,7 +249,7 @@ export default function Demo(
             </pre>
           </div>
         )}
-      </div>
+      </div> */}
 
       <div>
         <h2 className="font-2xl font-bold">Actions</h2>
@@ -243,7 +268,7 @@ export default function Demo(
             {/* Add more game buttons here */}
           </div>
         </div>
-
+        {/* 
         <div className="mb-4">
           <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
             <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
@@ -251,27 +276,27 @@ export default function Demo(
             </pre>
           </div>
           <Button onClick={openUrl}>Open Link</Button>
-        </div>
+        </div> */}
 
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
             <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
               sdk.actions.openUrl
             </pre>
           </div>
           <Button onClick={openWarpcastUrl}>Open Warpcast Link</Button>
-        </div>
+        </div> */}
 
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
             <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
               sdk.actions.close
             </pre>
           </div>
           <Button onClick={close}>Close Frame</Button>
-        </div>
+        </div> */}
       </div>
-
+      {/* 
       <div>
         <h2 className="font-2xl font-bold">Wallet</h2>
 
@@ -282,7 +307,7 @@ export default function Demo(
             </div>
             {balance && (
               <div className="mt-1">
-                Balance: {balance.formatted} {balance.symbol}
+                Balance: {parseFloat(balance.formatted).toFixed(4)} {balance.symbol}
                 {usdValue && (
                   <span className="ml-1 text-gray-500">
                     (${usdValue.toFixed(2)})
@@ -352,7 +377,7 @@ export default function Demo(
             </div>
           </>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

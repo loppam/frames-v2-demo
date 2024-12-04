@@ -12,6 +12,10 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+
+  .dropdown-menu {
+    background-color: rgb(31 41 55);
+  }
 }
 
 body {
@@ -122,7 +126,7 @@ body {
   top: 40px;
   margin-top: 5px;
   width: 12rem;
-  background-color: white;
+  /* background-color: white; */
   border-radius: 0.5rem;
   padding: 1rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -135,10 +139,4 @@ body {
 .dropdown-button {
   margin-top: 0.5rem;
   width: 100%;
-}
-
-@media (prefers-color-scheme: dark) {
-  .dropdown-menu {
-    background-color: rgb(31 41 55);
-  }
 }
