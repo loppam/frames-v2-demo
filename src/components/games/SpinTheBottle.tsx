@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import { Button } from "~/components/ui/Button";
 
-type Bet = 'up' | 'down' | null;
 type Outcome = 'up' | 'down' | 'middle';
 
 export default function SpinTheBottle() {
