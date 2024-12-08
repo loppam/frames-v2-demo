@@ -151,6 +151,16 @@ export default function Demo(
     router.push(url);
   }, [router]);
 
+  const openUnderOver = useCallback(() => {
+    const url = `/frames/games/underover`;
+    router.push(url);
+  }, [router]);
+
+  const openSpinTheBottle = useCallback(() => {
+    const url = `/frames/games/spinbottle`;
+    router.push(url);
+  }, [router]);
+
   if (!isSDKLoaded) {
     return <div>Loading...</div>;
   }
@@ -251,50 +261,22 @@ export default function Demo(
         )}
       </div> */}
 
-      <div>
-        <h2 className="font-2xl font-bold">Actions</h2>
+      <div className="games-section">
+        <h2 className="section-title">Games</h2>
 
-        <div className="mb-8">
-          <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-            <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
-              Games
-            </pre>
-          </div>
-
-          <div className="flex flex-col items-center gap-4">
-            <Button onClick={openCoinFlip} className="w-full">
+        <div className="games-container">
+          <div className="games-grid">
+            <Button onClick={openCoinFlip} className="game-button">
               Play Coin Flip 🎲
             </Button>
-            {/* Add more game buttons here */}
+            <Button onClick={openUnderOver} className="game-button">
+              Under & Over 7 🎯
+            </Button>
+            <Button onClick={openSpinTheBottle} className="game-button">
+              Spin The Bottle 🍾
+            </Button>
           </div>
         </div>
-        {/* 
-        <div className="mb-4">
-          <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-            <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
-              sdk.actions.openUrl
-            </pre>
-          </div>
-          <Button onClick={openUrl}>Open Link</Button>
-        </div> */}
-
-        {/* <div className="mb-4">
-          <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-            <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
-              sdk.actions.openUrl
-            </pre>
-          </div>
-          <Button onClick={openWarpcastUrl}>Open Warpcast Link</Button>
-        </div> */}
-
-        {/* <div className="mb-4">
-          <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-            <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
-              sdk.actions.close
-            </pre>
-          </div>
-          <Button onClick={close}>Close Frame</Button>
-        </div> */}
       </div>
       {/* 
       <div>
